@@ -27,7 +27,7 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
 
 swagger2:
-  enabled: false
+  enabled: true
   title: 空间查询服务
   version: 1.0
   groupName: 个人
