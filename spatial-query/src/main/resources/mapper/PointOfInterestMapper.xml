@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyb.spatialquery.mapper.PointOfInterestMapper">
+    <resultMap id="BaseResultMap" type="com.wyb.spatialquery.domain.PointOfInterest" >
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="geohash" property="hashcode" />
+        <result column="geojson" property="location" />
+    </resultMap>
+
+    <select id="findByExtent" resultMap="BaseResultMap"  parameterType="java.lang.String">
+        select id, name, geohash, ST_AsGeoJSON(geom)  geojson from geohash_point where ST_Contains(ST_GeomFromText(#{extent},4326), geom);
+    </select>
+</mapper>

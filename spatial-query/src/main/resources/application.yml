@@ -1,0 +1,68 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: spatial-query
+  profiles:
+    active: warn
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    dbcp2:
+      max-idle: 10
+      max-wait-millis: 8000
+      max-open-prepared-statements: 2
+      validation-query: select 1
+      max-total: 15
+      test-on-borrow: true
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+logging:
+  path: ./logs/spatial-query
+  file:
+    max-history: 10
+mybatis:
+  config-location: classpath:config/mybatis-config.xml
+  mapper-locations: classpath:mapper/*.xml
+---
+spring:
+  profiles:
+    active: dev
+  devtools:
+    restart:
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://192.168.137.134:5432/opengis
+    username: postgres
+    password: postgres
+
+logging:
+  level:
+    com.**: debug
+
+---
+spring:
+  profiles:
+    active: test
+  datasource:
+    url: jdbc:postgresql://192.168.137.134:5432/opengis
+    username: postgres
+    password: postgres
+
+logging:
+  level:
+    com.**: warn
+
+---
+spring:
+  profiles:
+    active: prod
+  datasource:
+    url: jdbc:postgresql://192.168.137.134:5432/opengis
+    username: postgres
+    password: postgres
+
+logging:
+  level:
+    com.**: warn
+
