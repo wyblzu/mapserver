@@ -21,9 +21,20 @@ logging:
   path: ./logs/spatial-query
   file:
     max-history: 10
+
 mybatis:
   config-location: classpath:config/mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
+
+swagger2:
+  enabled: false
+  title: 空间查询服务
+  version: 1.0
+  groupName: 个人
+  author: wyblzu
+  description: PostgreSQL构建的空间查询服务
+  basePackage: com.wyb.spatialquery
+
 ---
 spring:
   profiles:
