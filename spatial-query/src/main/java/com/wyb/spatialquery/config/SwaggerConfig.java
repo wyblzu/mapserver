@@ -17,7 +17,7 @@ import java.util.Collections;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    private SwaggerProperties swaggerProperties;
+    private final SwaggerProperties swaggerProperties;
 
     @Autowired
     public SwaggerConfig(SwaggerProperties swaggerProperties) {
