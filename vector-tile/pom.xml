@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>vector-tile</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${version}</version>
     <name>vector-tile</name>
     <description>矢量切片</description>
 
@@ -14,9 +14,6 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
 
     <dependencies>
         <dependency>

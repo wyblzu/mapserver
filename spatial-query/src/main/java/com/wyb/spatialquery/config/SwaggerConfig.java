@@ -40,8 +40,8 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-                .build()
-                .apiInfo(apiInfo()).enable(swaggerProperties.isEnabled()).useDefaultResponseMessages(false)
+                .build().enable(swaggerProperties.isEnabled())
+                .apiInfo(apiInfo()).useDefaultResponseMessages(false)
                 .globalResponseMessage(RequestMethod.GET, Lists.newArrayList(
                         new ResponseMessageBuilder()
                                 .code(500)

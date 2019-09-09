@@ -1,16 +1,17 @@
 package com.wyb.spatialquery.domain;
 
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+
 /**
- * 对应POI表
+ * POI相关
+ *
  * @author wangyongbing
- * @date 2019/9/8 19:59
  * @version 1.0.0
+ * @date 2019/9/8 19:59
  */
 @Data
 @ApiModel

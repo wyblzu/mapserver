@@ -36,6 +36,7 @@ public class PointOfInterestController {
     @ApiOperation("根据传入范围查询POI")
     @GetMapping("/poi")
     public List<PointOfInterest> pointOfInterestByExtent(@ApiParam(name = "extent", value = "查询范围", required = true, example = "POLYGON((105 32,105.3 32,105.3 32.3,105 32.3,105 32))") @RequestParam("extent") String extent) {
-        return this.pointOfInterestService.queryByExtent(extent);
+        List<PointOfInterest> result = this.pointOfInterestService.queryByExtent(extent);
+        return result.subList(0,5);
     }
 }

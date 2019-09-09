@@ -3,8 +3,6 @@ server:
 spring:
   application:
     name: spatial-query
-  profiles:
-    active: warn
   datasource:
     driver-class-name: org.postgresql.Driver
     dbcp2:
@@ -18,7 +16,6 @@ spring:
       time-between-eviction-runs-millis: 60000
       min-evictable-idle-time-millis: 30000
 logging:
-  path: ./logs/spatial-query
   file:
     max-history: 10
 
@@ -27,21 +24,16 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
 
 swagger2:
-  enabled: true
   title: 空间查询服务
   version: 1.0
   groupName: 个人
   author: wyblzu
   description: PostgreSQL构建的空间查询服务
   basePackage: com.wyb.spatialquery
-
 ---
 spring:
   profiles:
     active: dev
-  devtools:
-    restart:
-      enabled: true
   datasource:
     url: jdbc:postgresql://192.168.137.134:5432/opengis
     username: postgres
@@ -49,8 +41,11 @@ spring:
 
 logging:
   level:
-    com.**: debug
+    com.wyb.spatialquery: debug
+    org.springframework.web: debug
 
+swagger2:
+  enabled: true
 ---
 spring:
   profiles:
@@ -61,19 +56,31 @@ spring:
     password: postgres
 
 logging:
+  path: ./logs/spatial-query
   level:
-    com.**: warn
+    com.wyb.spatialquery: warn
+    org.springframework.web: warn
 
+swagger2:
+  enabled: false
 ---
 spring:
   profiles:
     active: prod
+  devtools:
+    restart:
+      enabled: true
+
   datasource:
     url: jdbc:postgresql://192.168.137.134:5432/opengis
     username: postgres
     password: postgres
 
 logging:
+  path: ./logs/spatial-query
   level:
-    com.**: warn
+    com.wyb.spatialquery: warn
+    org.springframework.web: warn
 
+swagger2:
+  enabled: false

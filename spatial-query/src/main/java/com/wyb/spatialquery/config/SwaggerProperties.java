@@ -5,7 +5,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
+ *
  * swagger2动态属性
+ *
  * @author wangyongbing
  * @date 2019/9/8 19:59
  * @version 1.0.0
