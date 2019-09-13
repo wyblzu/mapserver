@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>vector-tile</artifactId>
-    <version>${version}</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>vector-tile</name>
     <description>矢量切片</description>
 
@@ -12,6 +12,7 @@
         <groupId>com.wyb</groupId>
         <artifactId>mapserver</artifactId>
         <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
     </parent>
 
 
@@ -47,5 +48,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>
