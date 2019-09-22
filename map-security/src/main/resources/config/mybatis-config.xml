@@ -7,9 +7,6 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
     <typeAliases>
-        <package name="com.wyb.spatialquery.domain"/>
+        <package name="com.wyb.mapsecurity.pojo.domain"/>
     </typeAliases>
-    <typeHandlers>
-        <package name="com.wyb.spatialquery.dao.typehandler"/>
-    </typeHandlers>
 </configuration>

@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: dev
+  devtools:
+    restart:
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://192.168.137.134:5432/permission
+    username: postgres
+    password: postgres
+
+logging:
+  path: ./logs/map-security
+  level:
+    com.wyb.mapsecurity: debug
+    org.springframework.web: debug

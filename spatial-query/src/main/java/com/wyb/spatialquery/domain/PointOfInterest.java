@@ -3,6 +3,7 @@ package com.wyb.spatialquery.domain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -27,7 +28,7 @@ public class PointOfInterest implements Serializable {
     private String hashcode;
 
     @ApiModelProperty(name = "location", notes = "位置", value = "位置", example = "{\"type\":\"Point\",\"coordinates\":[105.22514688482,32.1835367006669]}")
-    private String location;
+    private Object location;
 
     @Override
     public String toString() {

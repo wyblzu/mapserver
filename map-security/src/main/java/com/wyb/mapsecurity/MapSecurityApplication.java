@@ -1,4 +1,4 @@
-package com.wyb.spatialquery;
+package com.wyb.mapsecurity;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,18 +6,18 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  *
- *地图查询服务
+ * 接口token验证
  *
  * @author wangyongbing
- * @date 2019/9/8 19:59
+ * @date 2019/9/17 22:57
  * @version 1.0.0
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-public class SpatialQueryApplication {
+public class MapSecurityApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpatialQueryApplication.class, args);
+        SpringApplication.run(MapSecurityApplication.class, args);
     }
 
 }

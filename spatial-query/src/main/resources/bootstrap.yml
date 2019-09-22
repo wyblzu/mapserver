@@ -1,0 +1,40 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: platform-spatial-query
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      auto-commit: true
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 30000
+      pool-name: DatebookHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: select 1
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka
+
+logging:
+  file:
+    max-history: 10
+
+mybatis:
+  config-location: classpath:config/mybatis-config.xml
+  mapper-locations: classpath:mapper/*.xml
+
+swagger2:
+  title: 空间查询服务
+  version: 1.0
+  groupName: 个人
+  author: wyblzu
+  description: PostgreSQL构建的空间查询服务
+  basePackage: com.wyb.spatialquery

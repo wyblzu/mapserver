@@ -1,7 +1,7 @@
 package com.wyb.spatialquery.service.impl;
 
 import com.wyb.spatialquery.domain.PointOfInterest;
-import com.wyb.spatialquery.mapper.PointOfInterestMapper;
+import com.wyb.spatialquery.dao.PointOfInterestMapper;
 import com.wyb.spatialquery.service.PointOfInterestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

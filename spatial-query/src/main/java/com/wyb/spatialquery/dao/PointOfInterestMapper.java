@@ -1,4 +1,4 @@
-package com.wyb.spatialquery.mapper;
+package com.wyb.spatialquery.dao;
 
 import com.wyb.spatialquery.domain.PointOfInterest;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Repository
 @Mapper
-public interface PointOfInterestMapper{
+public interface PointOfInterestMapper {
 
     /**
      *
