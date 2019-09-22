@@ -1,0 +1,22 @@
+server:
+  port: 8000
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    region: china
+    availability-zones:
+      china: service-1
+    service-url:
+      service-1: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+logging:
+  path: ./logs/eurakaserver
+  level:
+    com:
+      netflix:
+        eureka: info
+        discovery: info
