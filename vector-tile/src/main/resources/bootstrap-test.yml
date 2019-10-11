@@ -2,7 +2,7 @@ spring:
   profiles:
     active: test
   datasource:
-    url: jdbc:postgresql://192.168.137.134:5432/permission
+    url: jdbc:postgresql://192.168.137.134:5432/opengis
     username: postgres
     password: postgres
 
@@ -12,7 +12,10 @@ eureka:
       defaultZone: http://localhost:8000/eureka
 
 logging:
-  path: ./logs/map-security
+  path: ./logs/vector-tile
   level:
-    com.wyb.mapsecurity: warn
+    com.wyb.spatialquery: warn
     org.springframework.web: warn
+
+swagger2:
+  enabled: false

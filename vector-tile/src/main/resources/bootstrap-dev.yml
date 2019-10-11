@@ -5,7 +5,7 @@ spring:
     restart:
       enabled: true
   datasource:
-    url: jdbc:postgresql://192.168.137.134:5432/permission
+    url: jdbc:postgresql://192.168.137.134:5432/opengis
     username: postgres
     password: postgres
 
@@ -15,7 +15,10 @@ eureka:
       defaultZone: http://localhost:8000/eureka
 
 logging:
-  path: ./logs/map-security
+  path: ./logs/vector-tile
   level:
-    com.wyb.mapsecurity: debug
+    com.wyb.spatialquery: debug
     org.springframework.web: debug
+
+swagger2:
+  enabled: true

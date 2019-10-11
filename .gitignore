@@ -49,3 +49,6 @@ build/
 
 ### git ###
 .gitignore
+src/main/java/com/wyb/mapsecurity/pojo/vo/
+src/main/resources/mapper/
+src/main/resources/static/

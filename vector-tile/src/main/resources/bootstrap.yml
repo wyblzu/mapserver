@@ -2,7 +2,7 @@ server:
   port: 9001
 spring:
   application:
-    name: platform-map-security
+    name: platform-vector-tile
   profiles:
     active: @spring.active@
   datasource:
@@ -17,24 +17,17 @@ spring:
       max-lifetime: 1800000
       connection-timeout: 30000
       connection-test-query: select 1
-    schema: classpath:sql/schema.sql
-  thymeleaf:
-    mode: HTML5
-    encoding: utf-8
-    cache: false
 
 eureka:
   client:
     enabled: true
-    healthcheck:
-      enabled: true
     fetch-registry: true
     register-with-eureka: true
     instance-info-replication-interval-seconds: 10
     registry-fetch-interval-seconds: 10
   instance:
-    appname: platform-map-gateway
-    instanceId: platform-map-gateway:${spring.application.instance-id:${random.value}}
+    appname: platform-vector-tile
+    instanceId: platform-vector-tile:${spring.application.instance-id:${random.value}}
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 10
 
@@ -44,4 +37,12 @@ logging:
 
 mybatis:
   config-location: classpath:config/mybatis-config.xml
+  mapper-locations: classpath:mapper/*.xml
 
+swagger2:
+  title: 矢量瓦片服务
+  version: 1.0
+  groupName: 个人
+  author: wyblzu
+  description: PostgreSQL构建的矢量瓦片服务
+  basePackage: com.wyb.spatialquery
