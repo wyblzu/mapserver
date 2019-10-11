@@ -4,7 +4,7 @@ spring:
   application:
     name: platform-spatial-query
   profiles:
-    active: dev
+    active: @spring.active@
   datasource:
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
@@ -20,8 +20,16 @@ spring:
 
 eureka:
   client:
-    serviceUrl:
-      defaultZone: http://localhost:8000/eureka
+    enabled: true
+    fetch-registry: true
+    register-with-eureka: true
+    instance-info-replication-interval-seconds: 10
+    registry-fetch-interval-seconds: 10
+  instance:
+    appname: platform-spatial-query
+    instanceId: platform-spatial-query:${spring.application.instance-id:${random.value}}
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
 
 logging:
   file:

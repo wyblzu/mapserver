@@ -6,6 +6,11 @@ spring:
     username: postgres
     password: postgres
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka
+
 logging:
   path: ./logs/spatial-query
   level:
