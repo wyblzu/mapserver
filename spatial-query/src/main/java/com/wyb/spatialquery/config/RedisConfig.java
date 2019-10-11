@@ -38,8 +38,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
     @Bean
-    @Override
-    public KeyGenerator keyGenerator() {
+    public KeyGenerator wiselyKeyGenerator() {
         return (target, method, params) -> {
             StringBuilder sb = new StringBuilder();
             sb.append(target.getClass().getName());

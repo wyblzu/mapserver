@@ -4,6 +4,8 @@ import com.wyb.spatialquery.dao.PointOfInterestMapper;
 import com.wyb.spatialquery.domain.PointOfInterest;
 import com.wyb.spatialquery.service.PointOfInterestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
  * @date 2019/9/8 19:59
  */
 @Service
+@CacheConfig(cacheNames = "VectorTile")
 public class PointOfInterestServiceImpl implements PointOfInterestService {
 
     private final PointOfInterestMapper pointOfInterestMapper;
@@ -26,8 +29,14 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     }
 
     @Override
+    @Cacheable(keyGenerator = "wiselyKeyGenerator")
     public List<PointOfInterest> queryByExtent(String extent) {
         return this.pointOfInterestMapper.findByExtent(extent);
+    }
+
+    @Cacheable(key = "#z + '-' + #x + '-' + #y")
+    public void queryVectorTile(Integer z, Integer x, Integer y) {
+
     }
 
 }
