@@ -4,7 +4,7 @@ spring:
   application:
     name: platform-vector-tile
   profiles:
-    active: dev
+    active: @spring.active@
   datasource:
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
