@@ -2,13 +2,13 @@ package com.wyb.vectortile.controller;
 
 import com.wyb.vectortile.service.VectorTileService;
 import com.wyb.vectortile.service.impl.VectorTileServiceImpl;
-import com.wyb.vectortile.utils.BaseResult;
-import com.wyb.vectortile.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,11 +35,18 @@ public class VectorTileController {
     }
 
     @ApiOperation("根据xyz获取mvt格式矢量瓦片")
-    @GetMapping("/{z}/{x}/{y}.pbf")
-    public BaseResult findTileByCode(@ApiParam(name = "z", value = "级别", required = true, example = "13") @PathVariable(name = "z") Integer z,
-                                    @ApiParam(name = "x", value = "行号", required = true, example = "6744") @PathVariable(name = "x") Integer x,
-                                    @ApiParam(name = "y", value = "列号", required = true,example = "3102") @PathVariable(name = "y") Integer y) {
-        return ResultUtil.success(this.vectorTileService.findByTileCode(x, y, z));
+    @GetMapping("/{z}/{x}/{y}.mvt")
+    public ResponseEntity<String> findTileByCode(@ApiParam(name = "z", value =
+            "级别",
+            required =
+                    true, example = "13") @PathVariable(name = "z") Integer z,
+                                         @ApiParam(name = "x", value = "行号", required = true, example = "6744") @PathVariable(name = "x") Integer x,
+                                         @ApiParam(name = "y", value = "列号",
+                                                 required = true, example = "3102") @PathVariable(name = "y") Integer y) {
+//        response.addHeader("Content-type", "application/vnd.mapbox-vector-tile");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/vnd.mapbox-vector-tile");
+        return ResponseEntity.status(200).headers(headers).body(this.vectorTileService.findByTileCode(x, y, z));
     }
 }
 

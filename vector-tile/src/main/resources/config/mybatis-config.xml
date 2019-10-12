@@ -5,7 +5,9 @@
 <configuration>
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="logImpl" value="STDOUT_LOGGING" />
     </settings>
+
     <typeAliases>
         <package name="com.wyb.vectortile.pojo.query"/>
     </typeAliases>

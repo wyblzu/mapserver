@@ -4,7 +4,7 @@ spring:
   application:
     name: platform-vector-tile
   profiles:
-    active: @spring.active@
+    active: dev
   datasource:
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
@@ -17,6 +17,18 @@ spring:
       max-lifetime: 1800000
       connection-timeout: 30000
       connection-test-query: select 1
+  redis:
+    # Redis数据库索引（默认为0)
+    database: 0
+    host: 192.168.19.129
+    port: 6379
+    password: 111111
+    lettuce:
+      pool:
+        max-active: 30
+        max-idle: 10
+        min-idle: 5
+    timeout: 100
 
 eureka:
   client:

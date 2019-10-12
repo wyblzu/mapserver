@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>聚合</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/openlayers/4.6.5/ol.css">
+</head>
+<body>
+<div id="map" class="map" style=" width: 100%;height: 100%;font-size: 14px; position: absolute;"></div>
+<script type="text/javascript"
+        src="https://cdn.bootcss.com/openlayers/4.6.5/ol-debug.js"></script>
+<script>
+
+    // let map = new ol.Map({
+    //     controls: ol.control.defaults({
+    //         attribution: false
+    //     }),
+    //     target: 'map',
+    //     layers: [new ol.layer.Tile({
+    //         source: new ol.source.XYZ({
+    //             url: 'http://t0.tianditu.gov.cn/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=9fb37f7d888b84de41af517302a0b55c'
+    //         })
+    //     }), new ol.layer.Tile({
+    //         source: new ol.source.XYZ({
+    //             url: 'http://t0.tianditu.gov.cn/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=9fb37f7d888b84de41af517302a0b55c'
+    //         })
+    //     })],
+    //     view: new ol.View({
+    //         projection: 'EPSG:3857',
+    //         center: ol.proj.fromLonLat([116.3768, 39.9065]),
+    //         minZoom: 2,
+    //         maxZoom: 18,
+    //         zoom: 16
+    //     })
+    // });
+    let map = new ol.Map({
+        target: 'map',
+        view: new ol.View({
+            center: [118, 39],
+            projection: 'EPSG:4326',
+            zoom: 17
+        }),
+        layers: [
+            new ol.layer.Tile({
+                title: 'OSM',
+                source: new ol.source.OSM({
+                    attributions: []
+                })
+            })
+        ]
+
+    });
+    let source = new ol.source.VectorTile({
+        format: new ol.format.MVT(),
+        projection: 'EPSG:4326',
+        url: 'http://localhost:9001/api/{z}/{x}/{y}.mvt'
+    });
+    let layer = new ol.layer.VectorTile({
+        source: source
+    });
+    map.addLayer(layer);
+
+    // let source = new ol.source.Vector();
+    // let pointLayer = new ol.layer.Vector({
+    //     source: source,
+    //     style: new ol.style.Style({
+    //         image: new ol.style.Circle({
+    //             radius: 7,
+    //             fill: new ol.style.Fill({
+    //                 color: '#ff1a1f',
+    //             }),
+    //             stroke: new ol.style.Stroke({
+    //                 color: '#1aff68',
+    //                 width: 1.5
+    //             })
+    //         })
+    //     })
+    // });
+    // map.addLayer(pointLayer);
+    // let extent = map.getView().calculateExtent();
+    // let extent = [110.51333398546716,37.165935129164524,110.51333560440067,37.16593576124282];
+    // extent = ol.proj.transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
+    // let wkt = 'POLYGON((' + ol.extent.getBottomLeft(extent).join(' ')  + ',' + ol.extent.getBottomRight(extent).join(' ') + ',' + ol.extent.getTopRight(extent).join(' ') + ',' + ol.extent.getTopLeft(extent).join(' ') + ',' + ol.extent.getBottomLeft(extent).join(' ') + '))';
+    // let params = {
+    //     rows: 20,
+    //     columns: 20,
+    //     number: 1,
+    //     rectangleWKT: wkt
+    // };
+    // let esc = encodeURIComponent;
+    // let queryParams = Object.keys(params).map(k => esc(k) + '=' + esc(params[k])).join('&');
+    // let url = 'http://39.98.160.148:6700/gis/api/web/gisextend/filterpoints?' + queryParams;
+    // fetch(url).then(response => response.json()).then(data => {
+    //     source.clear();
+    //     let points = data.data;
+    //     let features = [];
+    //     points.forEach(point => {
+    //         let geometry = (new ol.format.WKT()).readGeometry(point, {
+    //             dataProjection: 'EPSG:4326',
+    //             featureProjection: 'EPSG:3857'
+    //         });
+    //         let feature = new ol.Feature({
+    //             geometry: geometry
+    //         });
+    //         features.push(feature);
+    //     });
+    //     source.addFeatures(features);
+    // });
+    // map.getView().fit(ol.proj.transformExtent(extent, 'EPSG:4326', 'EPSG:3857'));
+    //
+    // map.on("moveend", function () {
+    //     let extent = map.getView().calculateExtent();
+    //     extent = ol.proj.transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
+    //     let wkt = 'POLYGON((' + ol.extent.getBottomLeft(extent).join(' ')  + ',' + ol.extent.getBottomRight(extent).join(' ') + ',' + ol.extent.getTopRight(extent).join(' ') + ',' + ol.extent.getTopLeft(extent).join(' ') + ',' + ol.extent.getBottomLeft(extent).join(' ') + '))';
+    //     let params = {
+    //         rows: 10,
+    //         columns: 10,
+    //         number: 1,
+    //         rectangleWKT: wkt
+    //     };
+    //     let esc = encodeURIComponent;
+    //     let queryParams = Object.keys(params).map(k => esc(k) + '=' + esc(params[k])).join('&');
+    //     let url = 'http://39.98.160.148:6700/gis/api/web/gisextend/filterpoints?' + queryParams;
+    //     fetch(url).then(response => response.json()).then(data => {
+    //         source.clear();
+    //         let points = data.data;
+    //         let features = [];
+    //         points.forEach(point => {
+    //             let geometry = (new ol.format.WKT()).readGeometry(point, {
+    //                 dataProjection: 'EPSG:4326',
+    //                 featureProjection: 'EPSG:3857'
+    //             });
+    //             let feature = new ol.Feature({
+    //                 geometry: geometry
+    //             });
+    //             features.push(feature);
+    //         });
+    //         source.addFeatures(features);
+    //     });
+    // });
+</script>
+</body>
+</html>

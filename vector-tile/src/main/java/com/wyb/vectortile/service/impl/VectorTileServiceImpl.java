@@ -5,6 +5,8 @@ import com.wyb.vectortile.pojo.query.TileEnvelopeQuery;
 import com.wyb.vectortile.service.VectorTileService;
 import com.wyb.vectortile.utils.GoogleTileAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
  * @date 2019-10-10 23:02
  **/
 @Service
+@CacheConfig(cacheNames = "VectorTile")
 public class VectorTileServiceImpl implements VectorTileService {
 
     private final VectorTileMapper vectorTileMapper;
@@ -26,7 +29,9 @@ public class VectorTileServiceImpl implements VectorTileService {
 
 
     @Override
+    @Cacheable(key = "#z + '-' + #x + '-' + #y")
     public String findByTileCode(Integer x, Integer y, Integer z) {
+        System.out.println("数据库查询瓦片");
         Double[] tileCoordinates = GoogleTileAlgorithm.code2Coordinate(x, y, z);
         TileEnvelopeQuery tileEnvelope = new TileEnvelopeQuery();
         tileEnvelope.setTileMinLongitude(tileCoordinates[0]);

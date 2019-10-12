@@ -5,6 +5,10 @@
 <mapper namespace="com.wyb.vectortile.dao.VectorTileMapper">
 
     <select id="findByTileCoordinates" resultType="java.lang.String" >
-       SELECT ST_AsMVT(MVTGeom.*) FROM (SELECT ST_AsMVTGeom(t.geom, ST_MakeEnvelope(#{tileMinLongitude}, #{tileMinLatitude}, #{tileMaxLongitude},#{tileMaxLatitude}), 4096, 0, true) AS geom, t.name FROM geohash_point t WHERE ST_INTERSECTS(t.geom, ST_SetSRID(ST_MakeEnvelope(#{tileMinLongitude}, #{tileMinLatitude}, #{tileMaxLongitude}, #{tileMaxLatitude}),4326))) AS MVTGeom WHERE MVTGeom.geom IS NOT NULL;
+       SELECT ST_AsMVT(MVTGeom.*) FROM (SELECT
+       ST_AsMVTGeom(t.geom, ST_MakeEnvelope(#{tileMinLongitude},
+        #{tileMinLatitude}, #{tileMaxLongitude},#{tileMaxLatitude}), 4096, 0,
+         true) AS geom, t.name FROM geohash_point t WHERE
+         ST_INTERSECTS(t.geom, ST_SetSRID(ST_MakeEnvelope(#{tileMinLongitude}, #{tileMinLatitude}, #{tileMaxLongitude}, #{tileMaxLatitude}),4326))) AS MVTGeom WHERE MVTGeom.geom IS NOT NULL;
     </select>
 </mapper>
