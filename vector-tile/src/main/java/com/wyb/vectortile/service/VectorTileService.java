@@ -21,6 +21,6 @@ public interface VectorTileService {
      * @return mvt
      *
      */
-    String findByTileCode(Integer x, Integer y, Integer z);
+    byte[] findByTileCode(Integer x, Integer y, Integer z);
 
 }

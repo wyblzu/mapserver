@@ -1,9 +1,13 @@
 package com.wyb.vectortile.dao;
 
+import com.wyb.vectortile.pojo.domain.VectorTileDo;
 import com.wyb.vectortile.pojo.query.TileEnvelopeQuery;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Blob;
+import java.util.List;
 
 /**
  * 矢量瓦片相关
@@ -24,6 +28,6 @@ public interface VectorTileMapper {
      * @author wangyongbing
      * @date 2019/10/10 21:41
      */
-    String findByTileCoordinates(TileEnvelopeQuery tileEnvelope);
+    List<VectorTileDo> findByTileCoordinates(TileEnvelopeQuery tileEnvelope);
 
 }

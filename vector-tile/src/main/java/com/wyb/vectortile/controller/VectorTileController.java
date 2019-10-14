@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,18 +36,20 @@ public class VectorTileController {
     }
 
     @ApiOperation("根据xyz获取mvt格式矢量瓦片")
-    @GetMapping("/{z}/{x}/{y}.mvt")
-    public ResponseEntity<String> findTileByCode(@ApiParam(name = "z", value =
+    @GetMapping("/{z}/{x}/{y}.pbf")
+    public HttpEntity<byte[]> findTileByCode(@ApiParam(name = "z", value =
             "级别",
             required =
                     true, example = "13") @PathVariable(name = "z") Integer z,
-                                         @ApiParam(name = "x", value = "行号", required = true, example = "6744") @PathVariable(name = "x") Integer x,
-                                         @ApiParam(name = "y", value = "列号",
+                                     @ApiParam(name = "x", value = "行号", required = true, example = "6744") @PathVariable(name = "x") Integer x,
+                                     @ApiParam(name = "y", value = "列号",
                                                  required = true, example = "3102") @PathVariable(name = "y") Integer y) {
-//        response.addHeader("Content-type", "application/vnd.mapbox-vector-tile");
+
+        byte[] bytes = this.vectorTileService.findByTileCode(x, y, z);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/vnd.mapbox-vector-tile");
-        return ResponseEntity.status(200).headers(headers).body(this.vectorTileService.findByTileCode(x, y, z));
+        headers.setContentLength(bytes.length);
+        return new HttpEntity<>(bytes, headers);
     }
 }
 
