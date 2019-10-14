@@ -5,6 +5,7 @@ import com.wyb.vectortile.pojo.domain.VectorTileDo;
 import com.wyb.vectortile.pojo.query.TileEnvelopeQuery;
 import com.wyb.vectortile.service.VectorTileService;
 import com.wyb.vectortile.utils.GoogleTileAlgorithm;
+import com.wyb.vectortile.utils.TileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -36,12 +37,13 @@ public class VectorTileServiceImpl implements VectorTileService {
     @Override
     @Cacheable(key = "#z + '-' + #x + '-' + #y")
     public byte[] findByTileCode(Integer x, Integer y, Integer z) {
-        Double[] tileCoordinates = GoogleTileAlgorithm.code2Coordinate(x, y, z);
+        double[] tileCoordinates = TileUtil.tileToEnvelope(x, y, z);
         TileEnvelopeQuery tileEnvelope = new TileEnvelopeQuery();
         tileEnvelope.setTileMinLongitude(tileCoordinates[0]);
         tileEnvelope.setTileMinLatitude(tileCoordinates[1]);
         tileEnvelope.setTileMaxLongitude(tileCoordinates[2]);
         tileEnvelope.setTileMaxLatitude(tileCoordinates[3]);
+        tileEnvelope.setSegsize(tileCoordinates[4]);
         List<VectorTileDo> result =
                 this.vectorTileMapper.findByTileCoordinates(tileEnvelope);
         return result.get(0).getTile();
