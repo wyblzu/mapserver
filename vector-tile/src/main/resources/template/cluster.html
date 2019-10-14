@@ -11,54 +11,48 @@
         src="https://cdn.bootcss.com/openlayers/4.6.5/ol-debug.js"></script>
 <script>
 
-    // let map = new ol.Map({
-    //     controls: ol.control.defaults({
-    //         attribution: false
-    //     }),
-    //     target: 'map',
-    //     layers: [new ol.layer.Tile({
-    //         source: new ol.source.XYZ({
-    //             url: 'http://t0.tianditu.gov.cn/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=9fb37f7d888b84de41af517302a0b55c'
-    //         })
-    //     }), new ol.layer.Tile({
-    //         source: new ol.source.XYZ({
-    //             url: 'http://t0.tianditu.gov.cn/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=9fb37f7d888b84de41af517302a0b55c'
-    //         })
-    //     })],
-    //     view: new ol.View({
-    //         projection: 'EPSG:3857',
-    //         center: ol.proj.fromLonLat([116.3768, 39.9065]),
-    //         minZoom: 2,
-    //         maxZoom: 18,
-    //         zoom: 16
-    //     })
-    // });
-    let map = new ol.Map({
-        target: 'map',
-        view: new ol.View({
-            center: ol.proj.fromLonLat([116.3768, 39.9065]),
-            projection: 'EPSG:3857',
-            zoom: 15
-        }),
-        layers: [
-            new ol.layer.Tile({
-                title: 'OSM',
-                projection: 'EPSG:3857',
-                source: new ol.source.OSM({
-                    attributions: []
+    var projection = new ol.proj.Projection({
+        code: 'EPSG:4326',
+        units: 'degrees',
+        axisOrientation: 'neu'
+    });
+    var source = new ol.source.VectorTile({
+        url: 'http://localhost:9001/api/{z}/{x}/{y}.pbf',
+        format: new ol.format.MVT({}),
+        projection: projection,
+        wrapX: true
+    });
+
+    var layer = new ol.layer.VectorTile({
+        source: source,
+        style: new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 7,
+                fill: new ol.style.Fill({
+                    color: '#ff1a1f',
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#1aff68',
+                    width: 1.5
                 })
             })
-        ]
+        })
+    });
 
+    var view = new ol.View({
+        center: [116.3768, 39.9065],
+        zoom: 13,
+        projection: projection,
+        extent: [-180.0,-90.0,180.0,90.0]
     });
-    let source = new ol.source.VectorTile({
-        format: new ol.format.MVT(),
-        url: 'http://localhost:9001/api/{z}/{x}/{y}.pbf'
+
+    var map = new ol.Map({
+        controls: ol.control.defaults({attribution: false}),
+        layers: [layer],
+        target: 'map',
+        view: view
     });
-    let layer = new ol.layer.VectorTile({
-        source: source
-    });
-    map.addLayer(layer);
+    // map.getView().fit([73.4990539550781,3.83788967132568,135.087356567383,53.5615539550781], map.getSize());
 
     // let source = new ol.source.Vector();
     // let pointLayer = new ol.layer.Vector({
