@@ -36,15 +36,22 @@ public class VectorTileServiceImpl implements VectorTileService {
 
     @Override
     @Cacheable(key = "#z + '-' + #x + '-' + #y")
-    public byte[] findByTileCode(Integer x, Integer y, Integer z) {
-        double[] tileCoordinates = TileUtil.tileToEnvelope(x, y, z);
+    public byte[] findByTileCode(Integer x, Integer y, Integer z, Integer type) {
         TileEnvelopeQuery tileEnvelope = new TileEnvelopeQuery();
+        double[] tileCoordinates;
+        if (type == 0) {
+            tileCoordinates = TileUtil.tileToEnvelope(x, y, z);
+            tileEnvelope.setSegsize(tileCoordinates[4]);
+        }else {
+            tileCoordinates = GoogleTileAlgorithm.code2Coordinate(x, y, z);
+            tileEnvelope.setSegsize(1.0);
+        }
         tileEnvelope.setTileMinLongitude(tileCoordinates[0]);
         tileEnvelope.setTileMinLatitude(tileCoordinates[1]);
         tileEnvelope.setTileMaxLongitude(tileCoordinates[2]);
         tileEnvelope.setTileMaxLatitude(tileCoordinates[3]);
-        tileEnvelope.setSegsize(tileCoordinates[4]);
-        List<VectorTileDo> result =
+        List<VectorTileDo> result;
+        result = (type == 0) ? this.vectorTileMapper.findByTileCoordinates(tileEnvelope) : this.vectorTileMapper.findByWGS84TileCoordinates(tileEnvelope);
                 this.vectorTileMapper.findByTileCoordinates(tileEnvelope);
         return result.get(0).getTile();
     }

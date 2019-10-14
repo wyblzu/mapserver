@@ -30,6 +30,20 @@ public class TileUtil {
         return true;
     }
 
+    /**
+     *
+     * 切片转box
+     *
+     * @author wangyongbing
+     * @date 2019/10/14 21:43
+     *
+     * @param x 行
+     * @param y 列
+     * @param z 层级
+     *
+     * @return 参考 {@link }
+     *
+     */
     public static double[] tileToEnvelope(Integer x, Integer y, Integer z) {
         double worldTileSize = Math.pow(2, z);
         double tileMercatorSize = WORLDMERCATORSIZE / worldTileSize;

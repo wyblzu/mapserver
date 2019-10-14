@@ -17,7 +17,7 @@
         axisOrientation: 'neu'
     });
     var source = new ol.source.VectorTile({
-        url: 'http://localhost:9001/api/{z}/{x}/{y}.pbf',
+        url: 'http://localhost:9001/api/tile?type=1&z={z}&x={x}&y={y}',
         format: new ol.format.MVT({}),
         projection: projection,
         wrapX: true

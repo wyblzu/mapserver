@@ -17,10 +17,11 @@ public interface VectorTileService {
      * @param x 行号
      * @param y 列号
      * @param z 级别
+     * @param type 类型
      *
      * @return pbf
      *
      */
-    byte[] findByTileCode(Integer x, Integer y, Integer z);
+    byte[] findByTileCode(Integer x, Integer y, Integer z, Integer type);
 
 }

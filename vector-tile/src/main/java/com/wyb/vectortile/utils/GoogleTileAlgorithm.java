@@ -18,8 +18,8 @@ public class GoogleTileAlgorithm {
      * @return minLongitude, minLatitude, maxLongitude, maxLatitude
      *
      */
-    public static Double[] code2Coordinate(Integer x, Integer y, Integer zoom) {
-        return new Double[]{tileToLongitude(x, zoom), tileToLatitude(y + 1, zoom), tileToLongitude(x+1, zoom), tileToLatitude(y, zoom)};
+    public static double[] code2Coordinate(Integer x, Integer y, Integer zoom) {
+        return new double[]{tileToLongitude(x, zoom), tileToLatitude(y + 1, zoom), tileToLongitude(x+1, zoom), tileToLatitude(y, zoom)};
     }
 
 

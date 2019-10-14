@@ -9,11 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 矢量瓦片查询接口
@@ -36,16 +32,13 @@ public class VectorTileController {
     }
 
     @ApiOperation("根据xyz获取mvt格式矢量瓦片")
-    @GetMapping("/{z}/{x}/{y}.pbf")
-    public HttpEntity<byte[]> findTileByCode(@ApiParam(name = "z", value =
-            "级别",
-            required =
-                    true, example = "13") @PathVariable(name = "z") Integer z,
-                                     @ApiParam(name = "x", value = "行号", required = true, example = "6744") @PathVariable(name = "x") Integer x,
-                                     @ApiParam(name = "y", value = "列号",
-                                                 required = true, example = "3102") @PathVariable(name = "y") Integer y) {
+    @GetMapping("/tile")
+    public HttpEntity<byte[]> findTileByCode(@ApiParam(name = "type", value = "瓦片类型", example = "0") @RequestParam(name = "type", defaultValue = "0") Integer type,
+                                             @ApiParam(name = "z", value = "级别", required = true, example = "13") @RequestParam(name = "z") Integer z,
+                                             @ApiParam(name = "x", value = "行号", required = true, example = "6744") @RequestParam(name = "x") Integer x,
+                                             @ApiParam(name = "y", value = "列号", required = true, example = "3102") @RequestParam(name = "y") Integer y) {
 
-        byte[] bytes = this.vectorTileService.findByTileCode(x, y, z);
+        byte[] bytes = this.vectorTileService.findByTileCode(x, y, z, type);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/vnd.mapbox-vector-tile");
         headers.setContentLength(bytes.length);

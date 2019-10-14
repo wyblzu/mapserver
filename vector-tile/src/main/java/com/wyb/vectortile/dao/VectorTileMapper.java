@@ -19,7 +19,7 @@ import java.util.List;
 public interface VectorTileMapper {
 
     /**
-     * 根据瓦片坐标得到mvt
+     * 根据Mercator瓦片坐标得到pbf
      *
      * @param tileEnvelope 瓦片坐标
      * @return 参考 {@link VectorTileDo}
@@ -27,5 +27,19 @@ public interface VectorTileMapper {
      * @date 2019/10/10 21:41
      */
     List<VectorTileDo> findByTileCoordinates(TileEnvelopeQuery tileEnvelope);
+
+    /**
+     *
+     * 请根据WGS84瓦片坐标得到pbf
+     *
+     * @author wangyongbing
+     * @date 2019/10/14 22:19
+     *
+     * @param tileEnvelopeQuery 瓦片坐标
+     *
+     * @return @return 参考 {@link VectorTileDo}
+     *
+     */
+    List<VectorTileDo> findByWGS84TileCoordinates(TileEnvelopeQuery tileEnvelopeQuery);
 
 }
