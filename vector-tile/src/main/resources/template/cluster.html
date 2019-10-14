@@ -36,13 +36,14 @@
     let map = new ol.Map({
         target: 'map',
         view: new ol.View({
-            center: [118, 39],
-            projection: 'EPSG:4326',
-            zoom: 17
+            center: ol.proj.fromLonLat([116.3768, 39.9065]),
+            projection: 'EPSG:3857',
+            zoom: 15
         }),
         layers: [
             new ol.layer.Tile({
                 title: 'OSM',
+                projection: 'EPSG:3857',
                 source: new ol.source.OSM({
                     attributions: []
                 })
@@ -52,8 +53,7 @@
     });
     let source = new ol.source.VectorTile({
         format: new ol.format.MVT(),
-        projection: 'EPSG:4326',
-        url: 'http://localhost:9001/api/{z}/{x}/{y}.mvt'
+        url: 'http://localhost:9001/api/{z}/{x}/{y}.pbf'
     });
     let layer = new ol.layer.VectorTile({
         source: source

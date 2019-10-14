@@ -3,10 +3,8 @@ package com.wyb.vectortile.dao;
 import com.wyb.vectortile.pojo.domain.VectorTileDo;
 import com.wyb.vectortile.pojo.query.TileEnvelopeQuery;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Blob;
 import java.util.List;
 
 /**
@@ -24,7 +22,7 @@ public interface VectorTileMapper {
      * 根据瓦片坐标得到mvt
      *
      * @param tileEnvelope 瓦片坐标
-     * @return mvt
+     * @return 参考 {@link VectorTileDo}
      * @author wangyongbing
      * @date 2019/10/10 21:41
      */

@@ -8,5 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VectorTileDo {
+    /**
+     * pbf二进制数据
+     */
     byte[] tile;
 }

@@ -18,7 +18,7 @@ public interface VectorTileService {
      * @param y 列号
      * @param z 级别
      *
-     * @return mvt
+     * @return pbf
      *
      */
     byte[] findByTileCode(Integer x, Integer y, Integer z);

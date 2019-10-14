@@ -4,10 +4,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wyb.vectortile.dao.VectorTileMapper">
 
-    <select id="findByTileCoordinates" resultType="java.lang.String" >
-       SELECT ST_AsMVT(MVTGeom.*) FROM (SELECT
-       ST_AsMVTGeom(t.geom, ST_MakeEnvelope(#{tileMinLongitude},
-        #{tileMinLatitude}, #{tileMaxLongitude},#{tileMaxLatitude}), 4096, 0,
+    <resultMap id="baseResultMap"
+               type="com.wyb.vectortile.pojo.domain.VectorTileDo">
+        <result column="tile" property="tile"/>
+    </resultMap>
+
+    <select id="findByTileCoordinates" resultType="java.lang.String"
+            resultMap="baseResultMap">
+       SELECT ST_AsMVT(MVTGeom.*) AS tile FROM (SELECT
+       ST_AsMVTGeom(t.geom,ST_MakeEnvelope(#{tileMinLongitude},
+        #{tileMinLatitude}, #{tileMaxLongitude},#{tileMaxLatitude}, 4326),
+        4096, 0,
          true) AS geom, t.name FROM geohash_point t WHERE
          ST_INTERSECTS(t.geom, ST_SetSRID(ST_MakeEnvelope(#{tileMinLongitude}, #{tileMinLatitude}, #{tileMaxLongitude}, #{tileMaxLatitude}),4326))) AS MVTGeom WHERE MVTGeom.geom IS NOT NULL;
     </select>

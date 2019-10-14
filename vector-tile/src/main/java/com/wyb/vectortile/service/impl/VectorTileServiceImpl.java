@@ -4,17 +4,13 @@ import com.wyb.vectortile.dao.VectorTileMapper;
 import com.wyb.vectortile.pojo.domain.VectorTileDo;
 import com.wyb.vectortile.pojo.query.TileEnvelopeQuery;
 import com.wyb.vectortile.service.VectorTileService;
-import com.wyb.vectortile.utils.BaseResult;
 import com.wyb.vectortile.utils.GoogleTileAlgorithm;
-import com.wyb.vectortile.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -48,10 +44,7 @@ public class VectorTileServiceImpl implements VectorTileService {
         tileEnvelope.setTileMaxLatitude(tileCoordinates[3]);
         List<VectorTileDo> result =
                 this.vectorTileMapper.findByTileCoordinates(tileEnvelope);
-        if (result != null && result.size() > 0) {
-            return result.get(0).getTile();
-        }
-        return null;
+        return result.get(0).getTile();
     }
 }
 
