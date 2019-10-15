@@ -2,19 +2,75 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>聚合</title>
+    <title>WGS842瓦片</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/openlayers/4.6.5/ol.css">
 </head>
 <body>
 <div id="map" class="map" style=" width: 100%;height: 100%;font-size: 14px; position: absolute;"></div>
-<script type="text/javascript"
-        src="https://cdn.bootcss.com/openlayers/4.6.5/ol-debug.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/openlayers/4.6.5/ol-debug.js"></script>
 <script>
-
+    function getTdtLayer(lyr) {
+        var url = "http://t4.tianditu.com/DataServer?T="+lyr+"&x={x}&Y={y}&L={z}&tk=9fb37f7d888b84de41af517302a0b55c";
+        var projection = ol.proj.get("EPSG:4326");
+        var projectionExtent = [ -180, -90, 180, 90 ];
+        var maxResolution = (ol.extent.getWidth(projectionExtent) / (256 * 2));
+        var resolutions = new Array(19);
+        for (var z = 0; z < 19; ++z) {
+            resolutions[z] = maxResolution / Math.pow(2, z);
+        }
+        var tileOrigin = ol.extent.getTopLeft(projectionExtent);
+        var layer = new ol.layer.Tile({
+            extent: [ -180, -90, 180, 90],
+            source: new ol.source.TileImage({
+                tileUrlFunction: function(tileCoord) {
+                    var z = tileCoord[0]+1;
+                    var x = tileCoord[1];
+                    var y = -tileCoord[2]-1;
+                    var n = Math.pow(2, z + 1);
+                    x = x % n;
+                    if (x * n < 0) {
+                        x = x + n;
+                    }
+                    return url.replace('{z}', z.toString())
+                        .replace('{y}', y.toString())
+                        .replace('{x}', x.toString());
+                },
+                projection: projection,
+                tileGrid: new ol.tilegrid.TileGrid({
+                    origin: tileOrigin,
+                    resolutions: resolutions,
+                    tileSize: 256
+                })
+            })
+        });
+        return layer;
+    }
     var projection = new ol.proj.Projection({
         code: 'EPSG:4326',
         units: 'degrees',
         axisOrientation: 'neu'
+    });
+
+    //天地图道路图层和注记图层
+    var vec_c = getTdtLayer("vec_c");
+    var cva_c = getTdtLayer("cva_c");
+
+    var map = new ol.Map({
+        controls: ol.control.defaults({
+            attribution: false
+        }),
+        target: 'map',
+        layers: [
+            vec_c,
+            cva_c
+        ],
+        view : new ol.View({
+            projection: projection,
+            center: [116.3, 39.9],
+            minZoom: 2,
+            maxZoom: 18,
+            zoom: 13
+        })
     });
     var source = new ol.source.VectorTile({
         url: 'http://localhost:9001/api/tile?type=1&z={z}&x={x}&y={y}',
@@ -22,14 +78,13 @@
         projection: projection,
         wrapX: true
     });
-
     var layer = new ol.layer.VectorTile({
         source: source,
         style: new ol.style.Style({
             image: new ol.style.Circle({
                 radius: 7,
                 fill: new ol.style.Fill({
-                    color: '#ff1a1f',
+                    color: '#ff1a1f'
                 }),
                 stroke: new ol.style.Stroke({
                     color: '#1aff68',
@@ -38,22 +93,7 @@
             })
         })
     });
-
-    var view = new ol.View({
-        center: [116.3768, 39.9065],
-        zoom: 13,
-        projection: projection,
-        extent: [-180.0,-90.0,180.0,90.0]
-    });
-
-    var map = new ol.Map({
-        controls: ol.control.defaults({attribution: false}),
-        layers: [layer],
-        target: 'map',
-        view: view
-    });
-    // map.getView().fit([73.4990539550781,3.83788967132568,135.087356567383,53.5615539550781], map.getSize());
-
+    map.addLayer(layer);
     // let source = new ol.source.Vector();
     // let pointLayer = new ol.layer.Vector({
     //     source: source,
