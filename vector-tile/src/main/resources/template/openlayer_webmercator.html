@@ -44,17 +44,26 @@
     var pointLayer = new ol.layer.VectorTile({
         source: source,
         style: new ol.style.Style({
-            image: new ol.style.Circle({
-                radius: 7,
-                fill: new ol.style.Fill({
-                    color: '#ff1a1f',
-                }),
-                stroke: new ol.style.Stroke({
-                    color: '#1aff68',
-                    width: 1.5
-                })
+            stroke: new ol.style.Stroke({
+                color: 'rgba(255,0,0,1.0)',
+                width: 2
+            }),
+            fill: new ol.style.Fill({
+                color: 'rgba(26,255,104,0.5)'
             })
         })
+        // style: new ol.style.Style({
+        //     image: new ol.style.Circle({
+        //         radius: 7,
+        //         fill: new ol.style.Fill({
+        //             color: '#ff1a1f',
+        //         }),
+        //         stroke: new ol.style.Stroke({
+        //             color: '#1aff68',
+        //             width: 1.5
+        //         })
+        //     })
+        // })
     });
     map.addLayer(pointLayer);
 </script>
