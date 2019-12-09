@@ -37,9 +37,25 @@ public interface VectorTileMapper {
      *
      * @param tileEnvelopeQuery 瓦片坐标
      *
-     * @return @return 参考 {@link VectorTileDo}
+     * @return 参考 {@link VectorTileDo}
      *
      */
     List<VectorTileDo> findByWGS84TileCoordinates(TileEnvelopeQuery tileEnvelopeQuery);
+    
+    /**
+     *
+     * 根据xyz请求瓦片
+     *
+     * @author wangyongbing
+     * @since 2019/12/1 下午7:09
+     *
+     * @param x 行号
+     * @param y 列号
+     * @param z 层级
+     *
+     * @return {@see VectorTileDo}
+     *
+     */
+    List<VectorTileDo> findByXYZ(Integer x, Integer y, Integer z);
 
 }

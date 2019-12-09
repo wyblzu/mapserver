@@ -10,28 +10,50 @@
     </resultMap>
 
     <sql id="mercatorTileBound">
-        ST_Segmentize(ST_MakeEnvelope(#{tileMinLongitude}, #{tileMinLatitude}, #{tileMaxLongitude},#{tileMaxLatitude},3857),#{segsize})
+        ST_MakeEnvelope(#{tileMinLongitude}, #{tileMinLatitude}, #{tileMaxLongitude},#{tileMaxLatitude},3857)
     </sql>
 
     <sql id="wgs84TileBound">
         ST_MakeEnvelope(#{tileMinLongitude},#{tileMinLatitude}, #{tileMaxLongitude},#{tileMaxLatitude}, 4326)
     </sql>
 
+    <sql id="simplePolygon">
+
+        <if test="zoom &gt; 7 and zoom &lt; 14">
+            ST_SimplifyPreserveTopology(ST_Transform(t.geom, 3857), 200)
+        </if>
+
+        <if test="zoom &lt;8">
+            ST_SimplifyPreserveTopology(ST_Transform(t.geom, 3857), 500)
+        </if>
+        <if test="zoom &gt; 13">
+            ST_Transform(t.geom, 3857)
+        </if>
+
+    </sql>
+
     <sql id="tableFields">
-        t.adcode, t.name, t.level, t.padcode FROM region_city t WHERE
+        t.code, t.name FROM region_city t WHERE
     </sql>
 
     <select id="findByTileCoordinates" resultMap="baseResultMap">
-       SELECT ST_AsMVT(MVTGeom.*) AS tile FROM (SELECT
-        ST_AsMVTGeom(ST_Transform(t.geom, 3857),(<include
-            refid="mercatorTileBound"/>)::box2d) AS geom, <include refid="tableFields"/> ST_INTERSECTS(t.geom,ST_Transform(<include
-            refid="mercatorTileBound"/>, 4326))) AS MVTGeom
+       SELECT ST_AsMVT(MVTGeom.*, 'region', 4096, 'geom') AS tile FROM (SELECT
+        ST_AsMVTGeom(
+        <include refid="simplePolygon"/>
+        ,(<include
+            refid="mercatorTileBound"/>)::box2d) AS geom, <include refid="tableFields"/> t.geom &amp;&amp; ST_Transform(<include
+            refid="mercatorTileBound"/>, 4326)) AS MVTGeom
         WHERE MVTGeom.geom IS NOT NULL;
     </select>
 
 
     <select id="findByWGS84TileCoordinates" resultMap="baseResultMap">
-       SELECT ST_AsMVT(MVTGeom.*) AS tile FROM (SELECT ST_AsMVTGeom(t.geom,<include refid="wgs84TileBound"/>) AS geom, <include refid="tableFields"/>
+       SELECT ST_AsMVT(MVTGeom, 'region', 4096, 'geom') AS tile FROM (SELECT ST_AsMVTGeom(t.geom,<include refid="wgs84TileBound"/>) AS geom, <include refid="tableFields"/>
          ST_INTERSECTS(t.geom, <include refid="wgs84TileBound"/>)) AS MVTGeom WHERE MVTGeom.geom IS NOT NULL;
+    </select>
+
+    <select id="findByXYZ" resultMap="baseResultMap">
+       SELECT ST_AsMVT(MVTGeom, 'region', 4096, 'geom') AS tile FROM (SELECT ST_AsMVTGeom(t.geom, ST_Transform(ST_TileEnvelope(#{z}, #{x}, #{y}), 4326)) AS geom, <include
+            refid="tableFields"/> t.geom  &amp;&amp; ST_Transform(ST_TileEnvelope(#{z}, #{x}, #{y}),4326)) AS MVTGeom WHERE MVTGeom.geom IS NOT NULL;
     </select>
 </mapper>

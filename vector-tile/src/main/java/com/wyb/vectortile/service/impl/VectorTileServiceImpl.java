@@ -41,18 +41,25 @@ public class VectorTileServiceImpl implements VectorTileService {
     public byte[] findByTileCode(Integer x, Integer y, Integer z, Integer type) {
         TileEnvelopeQuery tileEnvelope = new TileEnvelopeQuery();
         double[] tileCoordinates;
+        List<VectorTileDo> result;
         if (type == 0) {
             tileCoordinates = TileUtil.tileToEnvelope(x, y, z);
-            tileEnvelope.setSegsize(tileCoordinates[4]);
-        }else {
+            tileEnvelope.setZoom(z);
+            tileEnvelope.setTileMinLongitude(tileCoordinates[0]);
+            tileEnvelope.setTileMinLatitude(tileCoordinates[1]);
+            tileEnvelope.setTileMaxLongitude(tileCoordinates[2]);
+            tileEnvelope.setTileMaxLatitude(tileCoordinates[3]);
+        }else if (type == 1){
             tileCoordinates = GoogleTileAlgorithm.code2Coordinate(x, y, z);
-            tileEnvelope.setSegsize(1.0);
+            tileEnvelope.setZoom(z);
+            tileEnvelope.setTileMinLongitude(tileCoordinates[0]);
+            tileEnvelope.setTileMinLatitude(tileCoordinates[3]);
+            tileEnvelope.setTileMaxLongitude(tileCoordinates[2]);
+            tileEnvelope.setTileMaxLatitude(tileCoordinates[1]);
+        }else {
+            result = this.vectorTileMapper.findByXYZ(x, y, z);
+            return result.get(0).getTile();
         }
-        tileEnvelope.setTileMinLongitude(tileCoordinates[0]);
-        tileEnvelope.setTileMinLatitude(tileCoordinates[1]);
-        tileEnvelope.setTileMaxLongitude(tileCoordinates[2]);
-        tileEnvelope.setTileMaxLatitude(tileCoordinates[3]);
-        List<VectorTileDo> result;
         result = (type == 0) ? this.vectorTileMapper.findByTileCoordinates(tileEnvelope) : this.vectorTileMapper.findByWGS84TileCoordinates(tileEnvelope);
                 this.vectorTileMapper.findByTileCoordinates(tileEnvelope);
         return result.get(0).getTile();

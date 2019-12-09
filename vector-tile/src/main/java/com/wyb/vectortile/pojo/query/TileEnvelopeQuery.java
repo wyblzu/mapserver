@@ -24,6 +24,6 @@ public class TileEnvelopeQuery {
 
     private Double tileMinLatitude;
 
-    private Double segsize;
+    private Integer zoom;
 }
 

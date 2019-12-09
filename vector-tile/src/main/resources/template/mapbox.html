@@ -1,67 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset='utf-8' />
-    <title>Mapbox GL JS Examples</title>
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.0/mapbox-gl.css' rel='stylesheet' />
+    <meta charset='utf-8'/>
+    <title>MapBox矢量瓦片</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.css' rel='stylesheet'/>
     <style>
-        body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; width:100%; }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
 
 <div id='map'></div>
 <script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoid3libHp1IiwiYSI6ImNrM3gxbWl2ejE0cHMzbXMxZm16a3FpYWIifQ.RflIxz0xYZPUWtjTRiZAFg';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        zoom: 12,
+        center: [116.3768, 39.9065]
+    });
 
-var map = new mapboxgl.Map({
-    'container': 'map',
-    'zoom': 12,
-    'center': [116.3768, 39.9065], // New York
-    'style': {
-        'version': 8,
-        'sources': {
-            'carto-dark': {
-                'type': 'raster',
-                'tiles': [
-                    "http://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-                    "http://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-                    "http://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-                    "http://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"
-                ]
-            },
-            'postgis-tiles': {
-                'type': 'vector',
-                'tiles': [
-                    "http://localhost:9001/api/{z}/{x}/{y}.pbf"
-                ]
+    map.on('load', function () {
+        var city_region_source = {
+            type: 'vector',
+            tiles: ['http://localhost:9001/api/tile?type=0&z={z}&x={x}&y={y}']
+        };
+        var city_region_layer = {
+            'id': 'city_region_id',
+            'type': 'fill',
+            'source': 'city_region_source',
+            'source-layer': 'region',
+            'paint': {
+                "fill-color": "#00ffff",
+                "fill-opacity": 0.5,
+                "fill-outline-color": "#ff0000"
             }
-
-        },
-        'layers': [{
-            'id': 'carto-dark-layer',
-            'type': 'raster',
-            'source': 'carto-dark',
-            'minzoom': 0,
-            'maxzoom': 22
-        },{
-            'id': 'postgis-tiles-layer',
-            'type': 'line',
-            'source': 'postgis-tiles',
-            // ST_AsMVT() uses 'default' as layer name
-            'source-layer': 'default', 
-            'minzoom': 0,
-            'maxzoom': 22,
-
-        }]
-    }
-});
-
-
-map.addControl(new mapboxgl.NavigationControl());
+        };
+        map.addSource('city_region_source', city_region_source);
+        map.addLayer(city_region_layer);
+    })
 </script>
-
 </body>
 </html>
