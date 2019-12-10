@@ -27,10 +27,13 @@ logging:
 
 zuul:
   routes:
-    api-spatialquery:
-      path: /api-spatialquery/**
-      serviceId: PLATFORM-SPATIAL-QUERY
     api-vectortile:
       path: /api-vectortile/**
       setviceId: PLATFORM-VECTOR-TILE
-
+      stripPrefix: false
+    api-spatialquery:
+      path: /api-spatialquery/**
+      serviceId: PLATFORM-SPATIAL-QUERY
+#    api-vectortile:
+#      path: /api-vectortile/**
+#      setviceId: PLATFORM-VECTOR-TILE

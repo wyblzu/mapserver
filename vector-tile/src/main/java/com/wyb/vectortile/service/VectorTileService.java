@@ -24,4 +24,20 @@ public interface VectorTileService {
      */
     byte[] findByTileCode(Integer x, Integer y, Integer z, Integer type);
 
+    /**
+     *
+     * 获取矢量瓦片
+     *
+     * @author wangyongbing
+     * @since 2019/12/10 下午10:45
+     *
+     * @param x 行号
+     * @param y 列号
+     * @param z 层级
+     *
+     * @return pdb
+     *
+     */
+    byte[] findMercatorTileByXYZ(Integer x, Integer y, Integer z);
+
 }

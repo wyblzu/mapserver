@@ -29,6 +29,8 @@ spring:
         max-idle: 10
         min-idle: 5
     timeout: 100
+  resources:
+    static-locations: classpath:/template/
 
 eureka:
   client:

@@ -35,7 +35,7 @@
     map.on('load', function () {
         var city_region_source = {
             type: 'vector',
-            tiles: ['http://localhost:9001/api/tile?type=0&z={z}&x={x}&y={y}']
+            tiles: ['http://localhost:9001/api/mtile?z={z}&x={x}&y={y}']
         };
         var city_region_layer = {
             'id': 'city_region_id',

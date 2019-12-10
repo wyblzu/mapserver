@@ -34,7 +34,7 @@
     });
 
     var source = new ol.source.VectorTile({
-        url: 'http://localhost:9001/api/tile?type=0&z={z}&x={x}&y={y}',
+        url: 'http://localhost:9001/api/mtile?z={z}&x={x}&y={y}',
         format: new ol.format.MVT({}),
         projection: 'EPSG:3857',
         wrapX: false

@@ -58,4 +58,20 @@ public interface VectorTileMapper {
      */
     List<VectorTileDo> findByXYZ(Integer x, Integer y, Integer z);
 
+    /**
+     *
+     * 根据zyx获取Mercator瓦片
+     *
+     * @author wangyongbing
+     * @since 2019/12/9 下午10:19
+     *
+     * @param x 行号
+     * @param y 列好
+     * @param z 级别
+     *
+     * @return {@see VectorTileDo}
+     *
+     */
+    VectorTileDo  findMercatorTileByXYZ(Integer x, Integer y, Integer z);
+
 }

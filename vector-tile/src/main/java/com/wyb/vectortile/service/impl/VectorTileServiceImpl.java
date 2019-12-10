@@ -37,7 +37,7 @@ public class VectorTileServiceImpl implements VectorTileService {
 
 
     @Override
-    @Cacheable(key = "#z + '-' + #x + '-' + #y")
+    @Cacheable(value = "VectorTile", key = "#z + '-' + #x + '-' + #y")
     public byte[] findByTileCode(Integer x, Integer y, Integer z, Integer type) {
         TileEnvelopeQuery tileEnvelope = new TileEnvelopeQuery();
         double[] tileCoordinates;
@@ -63,6 +63,12 @@ public class VectorTileServiceImpl implements VectorTileService {
         result = (type == 0) ? this.vectorTileMapper.findByTileCoordinates(tileEnvelope) : this.vectorTileMapper.findByWGS84TileCoordinates(tileEnvelope);
                 this.vectorTileMapper.findByTileCoordinates(tileEnvelope);
         return result.get(0).getTile();
+    }
+
+    @Override
+    @Cacheable(value = "MercatorTile", key = "#z + '-' + #x + '-' + #y")
+    public byte[] findMercatorTileByXYZ(Integer x, Integer y, Integer z) {
+        return this.vectorTileMapper.findMercatorTileByXYZ(x, y, z).getTile();
     }
 }
 

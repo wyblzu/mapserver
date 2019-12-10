@@ -2,9 +2,7 @@ package com.wyb.vectortile.controller;
 
 import com.wyb.vectortile.service.VectorTileService;
 import com.wyb.vectortile.service.impl.VectorTileServiceImpl;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -39,6 +37,39 @@ public class VectorTileController {
                                              @ApiParam(name = "y", value = "列号", required = true, example = "3102") @RequestParam(name = "y") Integer y) {
 
         byte[] bytes = this.vectorTileService.findByTileCode(x, y, z, type);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/vnd.mapbox-vector-tile");
+        headers.setContentLength(bytes.length);
+        return new HttpEntity<>(bytes, headers);
+    }
+
+    /**
+     *
+     * 请求矢量瓦片
+     *
+     * @author wangyongbing
+     * @since 2019/12/10 下午10:47
+     *
+     * @param z 层级
+     * @param x 行号
+     * @param y 列号
+     *
+     * @return pbf二进制数据
+     *
+     */
+    @ApiOperation("根据xyz获取Mercator矢量瓦片")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "z", value = "级别", required = true, dataType = "integer", allowableValues = "1,2,3,...,20", example = "13"),
+            @ApiImplicitParam(name = "x", value = "行号", required = true, dataType = "integer", example = "6744"),
+            @ApiImplicitParam(name = "y", value = "列号", required = true, dataType = "integer", example = "3102")
+    })
+    @GetMapping("/mtile")
+    public HttpEntity<byte[]> findMercatorTileByCode(
+                                             @RequestParam(value = "z", name = "z") Integer z,
+                                             @RequestParam(value = "x", name = "x") Integer x,
+                                             @RequestParam(value = "y", name = "y") Integer y) {
+
+        byte[] bytes = this.vectorTileService.findMercatorTileByXYZ(x, y, z);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/vnd.mapbox-vector-tile");
         headers.setContentLength(bytes.length);

@@ -11,6 +11,6 @@
     </resultMap>
 
     <select id="findByExtent" resultMap="BaseResultMap"  parameterType="java.lang.String">
-        select id, name, geohash, ST_AsGeoJSON(geom)  geojson from geohash_point where ST_Contains(ST_GeomFromText(#{extent},4326), geom);
+        select id, name, ST_AsGeoJSON(geom)  geojson from geohash_point where ST_Contains(ST_GeomFromText(#{extent},4326), geom);
     </select>
 </mapper>
