@@ -5,12 +5,30 @@ spring:
     name: platform-map-gateway
   profiles:
     active: @spring.active@
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+      - id: platform-vector-tile
+        uri: lb://platform-vector-tile
+        predicates:
+          - Path=/api-vectortile/**
+        filters:
+          - StripPrefix=1
+      - id: platform-spatial-query
+        uri: lb://platform-spatial-query
+        predicates:
+          - Path=/api-spatialquery/**
+        filters:
+          - StripPrefix=1
 
 eureka:
   client:
     enabled: true
     healthcheck:
-      enabled: true
+      enabled: false
     fetch-registry: true
     register-with-eureka: true
     instance-info-replication-interval-seconds: 10
@@ -25,15 +43,3 @@ logging:
   file:
     max-history: 10
 
-zuul:
-  routes:
-    api-vectortile:
-      path: /api-vectortile/**
-      setviceId: PLATFORM-VECTOR-TILE
-      stripPrefix: false
-    api-spatialquery:
-      path: /api-spatialquery/**
-      serviceId: PLATFORM-SPATIAL-QUERY
-#    api-vectortile:
-#      path: /api-vectortile/**
-#      setviceId: PLATFORM-VECTOR-TILE
