@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  **/
 @RestController
 @RequestMapping("/api")
-@Api(tags = "通过x,y,z获取矢量瓦片", description = "谷歌地图形式瓦片")
+@Api(tags = "通过x,y,z获取矢量瓦片")
 @Slf4j
 public class VectorTileController {
 
@@ -30,6 +30,12 @@ public class VectorTileController {
     }
 
     @ApiOperation("根据xyz获取mvt格式矢量瓦片")
+//    @ApiImplicitParams(
+//            @ApiImplicitParam(name = "type", value = "瓦片类型", dataType = "integer", paramType = "path", defaultValue = "0",example = "0"),
+//            @ApiImplicitParam(name = "z", value = "级别", required = true, dataType = "integer", paramType = "path", example = "13"),
+//            @ApiImplicitParam(name = "x", value = "行号", required = true, dataType = "integer", paramType = "path", example = "6744"),
+//            @ApiImplicitParam(name = "y", value = "列好", required = true, dataType = "integer", paramType = "path", example = "3102")
+//    )
     @GetMapping("/tile")
     public HttpEntity<byte[]> findTileByCode(@ApiParam(name = "type", value = "瓦片类型", example = "0") @RequestParam(name = "type", defaultValue = "0") Integer type,
                                              @ApiParam(name = "z", value = "级别", required = true, example = "13") @RequestParam(name = "z") Integer z,
@@ -59,15 +65,15 @@ public class VectorTileController {
      */
     @ApiOperation("根据xyz获取Mercator矢量瓦片")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "z", value = "级别", required = true, dataType = "integer", allowableValues = "1,2,3,...,20", example = "13"),
-            @ApiImplicitParam(name = "x", value = "行号", required = true, dataType = "integer", example = "6744"),
-            @ApiImplicitParam(name = "y", value = "列号", required = true, dataType = "integer", example = "3102")
+            @ApiImplicitParam(name = "z", value = "级别", required = true, dataType = "integer", paramType = "path", allowableValues = "1,2,3,...,20", example = "13"),
+            @ApiImplicitParam(name = "x", value = "行号", required = true, dataType = "integer", paramType = "path", example = "6744"),
+            @ApiImplicitParam(name = "y", value = "列号", required = true, dataType = "integer", paramType = "path",example = "3102")
     })
-    @GetMapping("/mtile")
+    @GetMapping("/mtile/{z}/{x}/{y}.pbf")
     public HttpEntity<byte[]> findMercatorTileByCode(
-                                             @RequestParam(value = "z", name = "z") Integer z,
-                                             @RequestParam(value = "x", name = "x") Integer x,
-                                             @RequestParam(value = "y", name = "y") Integer y) {
+                                             @PathVariable(value = "z", name = "z") Integer z,
+                                             @PathVariable(value = "x", name = "x") Integer x,
+                                             @PathVariable(value = "y", name = "y") Integer y) {
 
         byte[] bytes = this.vectorTileService.findMercatorTileByXYZ(x, y, z);
         HttpHeaders headers = new HttpHeaders();
