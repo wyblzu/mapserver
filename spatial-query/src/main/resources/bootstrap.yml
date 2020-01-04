@@ -5,6 +5,15 @@ spring:
     name: platform-spatial-query
   profiles:
     active: @spring.active@
+  resources:
+    static-locations: classpath:/template/
+  thymeleaf:
+    cache: false
+    prefix: classpath:/template/
+    check-template: true
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML
   datasource:
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link href="css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet">
+    <link href="library/bootstrap-3.3.7/css/bootstrap.min.css" th:href="@{/library/bootstrap-3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="library/ol3/ol.css" th:href="@{/library/ol3/ol.css}" rel="stylesheet"/>
+    <!--<link href="css/main.css" th:href="@{/css/main.css}" rel="stylesheet">-->
+    <link href="css/map.css" th:href="@{/css/map.css}" rel="stylesheet">
+    <title>地图查询</title>
+</head>
+<body>
+<div id="map" class="map">
+    <span id="mousePosition"></span>
+    <div id="query" class="btn-group btn-group-sm" role="group" aria-label="Draw">
+        <button type="button" id="pan" class="btn btn-info">平移</button>
+        <button type="button" id="rectangle" class="btn btn-info">矩形查询</button>
+        <button type="button" id="polygon" class="btn btn-info">多边形查询</button>
+        <button type="button" id="circle" class="btn btn-info">圆查询</button>
+        <button type="button" id="multipoint" class="btn btn-info">范围查询</button>
+        <button type="button" id="clear" class="btn btn-info">清除</button>
+    </div>
+</div>
+<script type="application/javascript" src="library/jquery/jquery.js" th:src="@{/library/jquery/jquery.js}"></script>
+<script type="application/javascript" src="library/bootstrap-3.3.7/js/bootstrap.min.js" th:src="@{/library/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+<script type="application/javascript" src="library/ol3/ol.js" th:src="@{/library/ol3/ol.js}"></script>
+<script type="application/javascript" src="js/tdtLayer.js" th:src="@{/js/tdtLayer.js}"></script>
+<script type="application/javascript" src="js/query.js" th:src="@{/js/query.js}"></script>
+<script type="application/javascript" src="js/map.js" th:src="@{/js/map.js}"></script>
+</body>
+</html>
