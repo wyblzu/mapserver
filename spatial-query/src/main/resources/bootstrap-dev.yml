@@ -5,7 +5,7 @@ spring:
     restart:
       enabled: true
   datasource:
-    url: jdbc:postgresql://192.168.29.130:5432/opengis
+    url: jdbc:postgresql://localhost:5432/opengis
     username: wyblzu
     password: 119889
 

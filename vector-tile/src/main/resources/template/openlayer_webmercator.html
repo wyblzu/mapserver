@@ -29,12 +29,12 @@
             center: ol.proj.fromLonLat([116.3768, 39.9065]),
             minZoom: 2,
             maxZoom: 18,
-            zoom: 13
+            zoom: 10
         })
     });
 
     var source = new ol.source.VectorTile({
-        url: 'http://localhost:9003/api-vectortile/api/mtile/{z}/{x}/{y}.pbf',
+        url: 'http://192.168.29.136:9003/api-vectortile/api/mtile/{z}/{x}/{y}.pbf',
         format: new ol.format.MVT({}),
         projection: 'EPSG:3857',
         wrapX: false

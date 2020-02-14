@@ -3,9 +3,7 @@ package com.wyb.spatialquery.controller;
 import com.wyb.spatialquery.domain.PointOfInterest;
 import com.wyb.spatialquery.service.impl.PointOfInterestServiceImpl;
 import com.wyb.spatialquery.utils.CustomResponse;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api")
-@Api(tags = "POI(兴趣点)相关接口", description = "提供POI查询的 REST API")
+@Api(tags = "POI(兴趣点)相关接口")
 @Slf4j
 public class PointOfInterestController {
 
@@ -36,8 +34,11 @@ public class PointOfInterestController {
     }
 
     @ApiOperation("根据传入范围查询POI")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "extent", value = "查询范围", required = true, dataType = "string", paramType = "query", example = "POLYGON((105 32,105.3 32,105.3 32.3,105 32.3,105 32))")
+    )
     @GetMapping("/poi")
-    public CustomResponse pointOfInterestByExtent(@ApiParam(name = "extent", value = "查询范围", required = true, example = "POLYGON((105 32,105.3 32,105.3 32.3,105 32.3,105 32))") @RequestParam("extent") String extent) {
+    public CustomResponse pointOfInterestByExtent(@RequestParam("extent") String extent) {
         List<PointOfInterest> result = this.pointOfInterestService.queryByExtent(extent);
         return CustomResponse.ok(result);
     }

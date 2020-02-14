@@ -4,6 +4,7 @@ import com.wyb.spatialquery.dao.PointOfInterestMapper;
 import com.wyb.spatialquery.domain.PointOfInterest;
 import com.wyb.spatialquery.service.PointOfInterestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -31,5 +32,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     public List<PointOfInterest> queryByExtent(String extent) {
         return this.pointOfInterestMapper.findByExtent(extent);
     }
+
+
 
 }

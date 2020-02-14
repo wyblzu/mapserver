@@ -1,5 +1,6 @@
 package com.wyb.spatialquery.service;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.wyb.spatialquery.domain.PointOfInterest;
 
 import java.util.List;
@@ -25,4 +26,5 @@ public interface PointOfInterestService {
      *
      */
     List<PointOfInterest> queryByExtent(String extent);
+
 }

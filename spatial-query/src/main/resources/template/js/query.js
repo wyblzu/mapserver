@@ -113,6 +113,27 @@ function spatialQuery(map) {
 
 
             case 'heatmap':
+                var source = new ol.source.Vector({
+                    weight: 'weight'
+                });
+                map.addLayer(new ol.layer.Heatmap({
+                    source: source
+                }));
+                // map.on('pointerdrag', function (e) {
+                //     console.log(e);
+                // });
+                map.on('moveend', function () {
+                    fetch("http://192.168.29.136:9003/api-spatialquery/api/cluster").then(response => response.json()).then(data =>
+                    {
+                        source.clear();
+                        var points = data.data;
+                        source.addFeatures((new ol.format.GeoJSON()).readFeatures(points, {
+                            dataProjection: 'EPSG:4326',
+                            featureProjection: 'EPSG:3857'
+                        }))
+                    })
+                });
+
                 // heatMapLayer(map);
                 break;
 
@@ -140,8 +161,8 @@ function query(map, typeId, drawGeometry, drawLayer) {
         })
     });
     map.addLayer(queryLayer);
-    if(typeId === 2) {
-        var wgs84Sphere= new ol.Sphere(6378137);
+    if (typeId === 2) {
+        var wgs84Sphere = new ol.Sphere(6378137);
         var radius = wgs84Sphere.haversineDistance(drawGeometry.getFirstCoordinate(), drawGeometry.getLastCoordinate());
         var center = drawGeometry.transform('EPSG:3857', 'EPSG:4326').getCenter();
         $.ajax({
@@ -158,7 +179,7 @@ function query(map, typeId, drawGeometry, drawLayer) {
                 showQueryData(map, data, drawLayer)
             }
         })
-    }else {
+    } else {
         var wkt = new ol.format.WKT();
         if (typeId == 1) {
             var tempCoords = (drawGeometry.getCoordinates()[0]);
@@ -251,6 +272,7 @@ function showQueryData(map, data, drawLayer) {
     }
 
 }
+
 //根据名称获取图层
 function getLayerByName(map, layerName) {
     var foundLayer = null;

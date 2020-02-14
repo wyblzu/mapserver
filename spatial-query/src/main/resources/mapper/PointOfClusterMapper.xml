@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyb.spatialquery.dao.PointOfClusterMapper">
+    <select id="findByCluster" resultType="java.lang.String" parameterType="java.lang.Double">
+SELECT
+	(ROW_TO_JSON ( tb4 )::text) AS result
+FROM
+	(
+SELECT
+	'FeatureCollection' AS TYPE,
+	ARRAY_TO_JSON (
+	ARRAY_AGG ( tb3 )) AS Features
+FROM
+	(
+SELECT
+	'Feature' AS TYPE,
+	ST_AsGeoJSON ( point ) :: JSON AS geometry,
+	ROW_TO_JSON ((
+SELECT
+	l
+FROM
+	( SELECT weight ) AS l
+	)) AS properties
+FROM
+	(
+SELECT
+	point,
+	ROUND(( weight - MIN ) / ( MAX - MIN ) :: NUMERIC, 4 ) AS weight
+FROM
+	(
+SELECT
+	*,
+	MIN ( weight ) OVER () AS MIN,
+	MAX ( weight ) OVER () AS MAX
+FROM
+	(
+SELECT
+	ST_SnapToGrid ( the_geom, ${cellSize} ) AS point,
+	COUNT ( 1 ) AS weight
+FROM
+	default_poi
+GROUP BY
+	ST_SnapToGrid ( the_geom, ${cellSize} )) AS tb0
+	) AS tb1
+	) AS tb2
+	) AS tb3
+	) AS tb4;
+    </select>
+
+</mapper>
