@@ -30,17 +30,17 @@ public class VectorTileController {
     }
 
     @ApiOperation("根据xyz获取mvt格式矢量瓦片")
-//    @ApiImplicitParams(
-//            @ApiImplicitParam(name = "type", value = "瓦片类型", dataType = "integer", paramType = "path", defaultValue = "0",example = "0"),
-//            @ApiImplicitParam(name = "z", value = "级别", required = true, dataType = "integer", paramType = "path", example = "13"),
-//            @ApiImplicitParam(name = "x", value = "行号", required = true, dataType = "integer", paramType = "path", example = "6744"),
-//            @ApiImplicitParam(name = "y", value = "列好", required = true, dataType = "integer", paramType = "path", example = "3102")
-//    )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "瓦片类型", dataType = "integer", paramType = "path", defaultValue = "-1",example = "0"),
+            @ApiImplicitParam(name = "z", value = "级别", required = true, dataType = "integer", paramType = "path", example = "12"),
+            @ApiImplicitParam(name = "x", value = "行号", required = true, dataType = "integer", paramType = "path", example = "6743"),
+            @ApiImplicitParam(name = "y", value = "列好", required = true, dataType = "integer", paramType = "path", example = "3101")
+    })
     @GetMapping("/tile")
-    public HttpEntity<byte[]> findTileByCode(@ApiParam(name = "type", value = "瓦片类型", example = "0") @RequestParam(name = "type", defaultValue = "0") Integer type,
-                                             @ApiParam(name = "z", value = "级别", required = true, example = "13") @RequestParam(name = "z") Integer z,
-                                             @ApiParam(name = "x", value = "行号", required = true, example = "6744") @RequestParam(name = "x") Integer x,
-                                             @ApiParam(name = "y", value = "列号", required = true, example = "3102") @RequestParam(name = "y") Integer y) {
+    public HttpEntity<byte[]> findTileByCode(@RequestParam(name = "type", defaultValue = "0") Integer type,
+                                             @RequestParam(name = "z") Integer z,
+                                             @RequestParam(name = "x") Integer x,
+                                             @RequestParam(name = "y") Integer y) {
 
         byte[] bytes = this.vectorTileService.findByTileCode(x, y, z, type);
         HttpHeaders headers = new HttpHeaders();
